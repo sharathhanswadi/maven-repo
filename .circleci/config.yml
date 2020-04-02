@@ -27,3 +27,17 @@ jobs: # a collection of steps
       - run:
           name: semantic release 
           command: semantic-release --prepare @conveyal/maven-semantic-release --publish @semantic-release/github,@conveyal/maven-semantic-release --verify-conditions @semantic-release/github,@conveyal/maven-semantic-release --verify-release @conveyal/maven-semantic-release --use-conveyal-workflow --dev-branch=master --skip-maven-deploy
+   
+  dev:
+    docker:
+      - image: google/cloud-sdk
+    working_directory: ~/sharath
+    steps:
+      - checkout
+      - run: install node js  and npm
+        command: |
+          curl -sL https://deb.nodesource.com/setup_10.x | bash -
+          apt install nodejs && node -v && npm -v
+      - run: run semantic-release
+        command: |
+          semantic-release --prepare @conveyal/maven-semantic-release --publish @semantic-release/github,@conveyal/maven-semantic-release --verify-conditions @semantic-release/github,@conveyal/maven-semantic-release --verify-release @conveyal/maven-semantic-release --use-conveyal-workflow --dev-branch=master --skip-maven-deploy
